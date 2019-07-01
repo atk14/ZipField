@@ -1,0 +1,22 @@
+{
+        "name": "atk14/zip-field",
+        "type": "library",
+        "description": "ZipField is a form field for entering and validating postal codes in ATK14 applications",
+        "keywords": ["zip", "zip codes", "zip code", "postal codes", "postal code", "field", "forms", "atk14"],
+        "homepage": "https://github.com/atk14/ZipField",
+        "license": ["MIT"],
+        "authors": [
+                {
+                        "name": "ATK14 Development Team",
+                        "homepage": "https://github.com/orgs/atk14/people"
+                }
+        ],
+        "require": {
+                "php": ">=5.3.0"
+        },
+        "require-dev": {
+        },
+        "autoload": {
+                "classmap": ["src/app/fields"]
+        }
+}
