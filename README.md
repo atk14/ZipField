@@ -19,6 +19,8 @@ Optionally you can symlink the ZipField files into your project:
 Usage in a ATK14 application
 ----------------------------
 
+ZipField has method is_valid_for() for re-validation in context of a desired country code. 
+
 In a form:
 
     <?php
@@ -52,6 +54,7 @@ In a controller:
       function create_new(){
         // ...
         if($this->request->post() && ($d = $this->form->validate($this->params))){
+          // postal code re-validation
           if(!$this->form->fields["zip"]->is_valid_for($d["country"],$d["zip"],$err)){
             $this->form->set_error("zip",$err);
             return;
@@ -60,6 +63,21 @@ In a controller:
           $user = User::CreateNewRecord($d);
           // ...
         }
+      }
+    }
+
+It's possible to set up ZipField only to accept postal codes from one specific country. Re-validation is not necessary in this case.
+
+    <?php
+    // file: app/forms/users/create_new_form.php
+    class CreateNewForm extends ApplicationForm {
+
+      function set_up(){
+        // ...
+        $this->add_field("zip", new ZipField([
+          "label" => "ZIP Code",
+          "country" => "CZ"
+        ]));
       }
     }
 
