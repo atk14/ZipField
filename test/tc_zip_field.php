@@ -36,7 +36,7 @@ class TcZipField extends TcBase {
 		$this->assertEquals("CW3 9SS",$zip);
 
 		$zip = $this->assertValid("se50eg");
-		$this->assertEquals("se50eg",$zip);
+		$this->assertEquals("SE50EG",$zip);
 
 		// at
 		$zip = $this->assertValid("1010");
