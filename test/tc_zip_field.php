@@ -23,6 +23,7 @@ class TcZipField extends TcBase {
 		$zip = $this->assertValid("V94 T2XR");
 		$this->assertValid("V94 T2XR",$zip);
 		$this->assertTrue($this->field->is_valid_for("IE",$zip,$err));
+		$this->assertValid("V94 T2XR",$zip);
 		//
 		$_zip = "D02AF30";
 		$zip = $this->assertValid($_zip);
