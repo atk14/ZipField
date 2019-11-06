@@ -18,6 +18,7 @@ class ZipField extends RegexField {
 		"SK" => '\d{3} ?\d{2}',
 		"DE" => '\d{5}',
 		"IT" => '\d{5}',
+		"IE" => '[A-Za-z\d]{3} ?[A-Za-z\d]{4}',
 		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
 		"AT" => '\d{4}',
 		"HU" => '\d{4}',
@@ -26,12 +27,8 @@ class ZipField extends RegexField {
 	static $OutputFilters = [
 		'CZ' => ['/^(\d{3})(\d{2})$/','\1 \2'],
 		'SK' => ['/^(\d{3})(\d{2})$/','\1 \2'],
+		'IE' => ['/^(.{3})(.{4})$/','\1 \2'],
 	];
-
-	static $FormatHints = [
-		'CZ' => 'xx',
-	];
-
 
 	function __construct($options = array()){
 		$options += array(
