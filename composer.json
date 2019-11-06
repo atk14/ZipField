@@ -15,6 +15,9 @@
                 "php": ">=5.3.0"
         },
         "require-dev": {
+                "atk14/tester": "*",
+                "atk14/forms": "dev-master",
+                "atk14/core": "dev-master"
         },
         "autoload": {
                 "classmap": ["src/app/fields"]
