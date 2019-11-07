@@ -12,25 +12,8 @@
  *	$field = new ZipField(["country" => "CZ"]); // accepts zip of the one country only
  */
 class ZipField extends RegexField {
-
-	static $Patterns = [
-		"CZ" => '\d{3} ?\d{2}',
-		"SK" => '\d{3} ?\d{2}',
-		"DE" => '\d{5}',
-		"FR" => '\d{5}',
-		"IT" => '\d{5}',
-		"IE" => '[A-Z\d]{3} ?[A-Z\d]{4}',
-		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
-		"AT" => '\d{4}',
-		"HU" => '\d{4}',
-		"RO" => '\d{6}', // Four-digit postal codes were first introduced in Romania in 1974. Beginning with 1 May 2003, postal codes have six digits.
-	];
-
-	static $OutputFilters = [
-		'CZ' => ['/^(\d{3})(\d{2})$/','\1 \2'],
-		'SK' => ['/^(\d{3})(\d{2})$/','\1 \2'],
-		'IE' => ['/^(.{3})(.{4})$/','\1 \2'],
-	];
+	static $Patterns;
+	static $OutputFilters;
 
 	function __construct($options = array()){
 		$options += array(
@@ -118,11 +101,79 @@ class ZipField extends RegexField {
 		}
 
 		if(isset(self::$OutputFilters[$country])){
-			$pattern = self::$OutputFilters[$country][0];
-			$replace = self::$OutputFilters[$country][1];
-			$zip = preg_replace($pattern,$replace,$zip);
+			$pattern = '/' . self::$Patterns[$country] . '/';
+			$replace = self::$OutputFilters[$country];
+			if(is_callable($replace)) {
+				preg_match($pattern, $zip, $matches);
+				$zip = $replace($matches);
+			} else {
+				$zip = preg_replace($pattern,$replace,$zip);
+			}
 		}
 
 		return true;
 	}
 }
+
+
+#https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+#https://publications.europa.eu/code/en/en-390105.htm
+#Whether to include country prefix or not have been determined from other
+#sources, as the link above provide inaccurate informations.
+
+ZipField::$Patterns = [
+		"BE" => '\d{4}',
+		"BG" => '\d{4}',
+		"CZ" => '(\d{3}) ?(\d{2})',
+		"DK" => '\d{4}',
+		"DE" => '\d{5}',
+		"EE" => '\d{5}',
+		"IE" => '([A-Z\d]{3}) ?([A-Z\d]{4})',
+		"GR" => '(\d{3}) ?(\d{2})',
+		"ES" => '\d{5}',
+		"FR" => '\d{5}',
+		"HR" => '(HR-)?(\d{5})',
+		"IT" => '\d{5}',
+		"CY" => '\d{4}',
+		"LV" => '(LV-)?(\d{4})',
+		"LT" => '(LT-)?(\d{5})',
+		"LU" => '(L-)?(\d{4})',
+		"HU" => '\d{4}',
+		"MT" => '([A-Z]{3}) ?(\d{4})',
+		"NL" => '(\d{4}) ?([A-Z]{2})',
+		"AT" => '\d{4}',
+		"PL" => '(\d{2})-?(\d{3})',
+		"PT" => '(\d{4})-?(\d{3})',
+		"RO" => '\d{6}', // Four-digit postal codes were first introduced in Romania in 1974. Beginning with 1 May 2003, postal codes have six digits.
+		"SI" => '(SI-)?(\d{4})',
+		"SK" => '(\d{3}) ?(\d{2})',
+		"FI" => '(FI-|AX-)?(\d{5})',
+		"SE" => '(SE-)?(\d{3}) ?(\d{2})',
+		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
+];
+
+ZipField::$OutputFilters = [
+		'CZ' => '\1 \2',
+		'IE' => '\1 \2',
+		'GR' => '\1 \2',
+		'HR' => '\2',
+		'LV' => 'LV-\2',
+		'LT' => 'LT-\2',
+		'LU' => 'L-\2',
+		'MT' => '\1 \2',
+		'NL' => '\1 \2',
+		'PL' => '\1-\2',
+		'PT' => '\1-\2',
+		'SI' => '\2',
+		'SK' => '\1 \2',
+		'FI' => function($matches) { 
+							return ($matches[1]?$matches[1]:'FI-') . $matches[2];
+						},
+		'SE' => 'SE-\2 \3',
+		'UK' => function($matches) {
+							$zip = str_replace(' ','', $matches[0]);
+							return substr($zip,0,strlen($zip)-3) . ' ' . substr($zip,strlen($zip)-3);
+						}
+];
+
+
