@@ -97,7 +97,6 @@ class ZipField extends RegexField {
 
 			if(!preg_match("/^$patern$/",$zip)){
 				$err_message = isset($format_hints[$country]) ? $format_hints[$country] : $this->messages["invalid"];
-				$zip = null;
 				return false;
 			}
 		}else{
