@@ -52,10 +52,14 @@ class ZipField extends RegexField {
 	function clean($value){
 		$value = trim($value);
 		$value = strtoupper($value);
+		$value = preg_replace('/\s+/',' ',$value);
 
 		list($err,$value) = parent::clean($value);
-		if(isset($value) && $this->country){
-			$this->is_valid_for($this->country,$value,$err);
+		if(!$value || !is_null($err)){
+			return [$err,$value];
+		}
+		if($this->country && !$this->is_valid_for($this->country,$value,$err)){
+			$value = null;
 		}
 		$this->cleaned_value = $value;
 		return [$err,$value];
