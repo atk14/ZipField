@@ -67,6 +67,14 @@ class TcZipField extends TcBase {
 		);
 	}
 
+	function test_France(){
+		$this->_testCountry("FR",array(
+				"12345" => "12345",
+				"111 22" => "11122",
+			),array("CW3 9SS")
+		);
+	}
+
 	function test_GreatBritain(){
 		$this->_testCountry("GB",array(
 			"CW3 9SS" => "CW3 9SS",
@@ -78,6 +86,12 @@ class TcZipField extends TcBase {
 		$this->_testCountry("IE",array(
 			"V94 T2XR" => "V94 T2XR",
 			"d02af30" => "D02 AF30",
+		),array("123 45"));
+	}
+
+	function test_Romania(){
+		$this->_testCountry("RO",array(
+			"123456" => "123456",
 		),array("123 45"));
 	}
 
@@ -94,17 +108,23 @@ class TcZipField extends TcBase {
 
 		foreach($valid_codes as $input => $expected){
 			$zip = $this->assertValid($input);
+			$err = "err";
 			$this->assertTrue($this->field->is_valid_for($country,$zip,$err));
 			$this->assertEquals($expected,$zip);
+			$this->assertNull(null,$err);
 
 			$zip = $this->assertValid(" $input ");
+			$err = "err";
 			$this->assertTrue($this->field->is_valid_for($country,$zip,$err));
 			$this->assertEquals($expected,$zip);
+			$this->assertNull(null,$err);
 		}
 
 		foreach($invalid_codes_in_the_country as $input){
 			$zip = $this->assertValid($input);
+			$err = "";
 			$this->assertFalse($this->field->is_valid_for($country,$zip,$err));
+			$this->assertTrue(strlen($err)>0);
 		}
 	}
 }

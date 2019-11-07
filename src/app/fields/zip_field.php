@@ -17,11 +17,13 @@ class ZipField extends RegexField {
 		"CZ" => '\d{3} ?\d{2}',
 		"SK" => '\d{3} ?\d{2}',
 		"DE" => '\d{5}',
+		"FR" => '\d{5}',
 		"IT" => '\d{5}',
 		"IE" => '[A-Z\d]{3} ?[A-Z\d]{4}',
 		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
 		"AT" => '\d{4}',
 		"HU" => '\d{4}',
+		"RO" => '\d{6}', // Four-digit postal codes were first introduced in Romania in 1974. Beginning with 1 May 2003, postal codes have six digits.
 	];
 
 	static $OutputFilters = [
@@ -92,12 +94,20 @@ class ZipField extends RegexField {
 			$zip = $this->cleaned_value;
 		}
 
+		$err_message = null;
+
 		if(isset(self::$Patterns[$country])){
 			$patern = self::$Patterns[$country];
 
 			if(!preg_match("/^$patern$/",$zip)){
-				$err_message = isset($format_hints[$country]) ? $format_hints[$country] : $this->messages["invalid"];
-				return false;
+				// trying to check the code again but without white spaces
+				$_zip = preg_replace('/\s*/','',$zip);
+				if($_zip!==$zip && ($this->is_valid_for($country,$_zip,$err_message))){
+					$zip = $_zip;
+				}else{
+					$err_message = isset($format_hints[$country]) ? $format_hints[$country] : $this->messages["invalid"];
+					return false;
+				}
 			}
 		}else{
 			trigger_error("ZipField: matching pattern missing for $country");
