@@ -23,7 +23,7 @@ class ZipField extends RegexField {
 
 		$this->country = $options["country"];
 
-		$_patterns = [];
+		$_patterns = array();
 		foreach(self::$Patterns as $key => $pattern){
 			$_patterns[] = "(?<$key>$pattern)";
 		}
@@ -39,13 +39,13 @@ class ZipField extends RegexField {
 
 		list($err,$value) = parent::clean($value);
 		if(!$value || !is_null($err)){
-			return [$err,$value];
+			return array($err,$value);
 		}
 		if($this->country && !$this->is_valid_for($this->country,$value,$err)){
 			$value = null;
 		}
 		$this->cleaned_value = $value;
-		return [$err,$value];
+		return array($err,$value);
 	}
 
 	/**
@@ -71,10 +71,10 @@ class ZipField extends RegexField {
 	function is_valid_for($country,&$zip = null,&$err_message = null){
 		static $format_hints;
 		if(!$format_hints){
-			$format_hints = [
+			$format_hints = array(
 				"CZ" => _("Enter the ZIP code as NNN NN"),
 				"SK" => _("Enter the ZIP code as NNN NN"),
-			];
+			);
 		}
 
 		if(is_null($zip)){
@@ -121,7 +121,7 @@ class ZipField extends RegexField {
 #Whether to include country prefix or not have been determined from other
 #sources, as the link above provide inaccurate informations.
 
-ZipField::$Patterns = [
+ZipField::$Patterns = array(
 		"BE" => '\d{4}',
 		"BG" => '\d{4}',
 		"CZ" => '(\d{3}) ?(\d{2})',
@@ -150,9 +150,9 @@ ZipField::$Patterns = [
 		"FI" => '(FI-|AX-)?(\d{5})',
 		"SE" => '(SE-)?(\d{3}) ?(\d{2})',
 		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
-];
+);
 
-ZipField::$OutputFilters = [
+ZipField::$OutputFilters = array(
 		'CZ' => '\1 \2',
 		'IE' => '\1 \2',
 		'GR' => '\1 \2',
@@ -174,6 +174,6 @@ ZipField::$OutputFilters = [
 							$zip = str_replace(' ','', $matches[0]);
 							return substr($zip,0,strlen($zip)-3) . ' ' . substr($zip,strlen($zip)-3);
 						}
-];
+);
 
 

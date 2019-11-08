@@ -2,7 +2,7 @@
 class TcZipField extends TcBase {
 
 	function test(){
-		$this->field = new ZipField([]);
+		$this->field = new ZipField(array());
 
 		// Some valid codes
 		$zip = $this->assertValid("111 50");
@@ -30,9 +30,9 @@ class TcZipField extends TcBase {
 		$this->assertEquals("Please enter a valid zip code",$err);
 
 		// Accepting zip code for one country only (IE)
-		$this->field = new ZipField([
+		$this->field = new ZipField(array(
 			"country" => "IE",
-		]);
+		));
 		$zip = $this->assertValid("V94T2XR");
 		$this->assertEquals("V94 T2XR",$zip);
 		//
@@ -40,9 +40,9 @@ class TcZipField extends TcBase {
 		$this->assertEquals(_("Please enter a valid zip code"),$err);
 
 		// Accepting zip for one country only (CZ)
-		$this->field = new ZipField([
+		$this->field = new ZipField(array(
 			"country" => "CZ",
-		]);
+		));
 		$zip = $this->assertValid("123 45");
 		$this->assertEquals("123 45",$zip);
 		//
@@ -129,71 +129,71 @@ class TcZipField extends TcBase {
 	}
 
 	function provider_zips() {
-		$uk_options = [
-			'length' => [5,9],
+		$uk_options = array(
+			'length' => array(5,9),
 			'mixed'  => true,
-		];
-		return [
-			['BE', '1234'],
-			['BG', '1234'],
-			['CZ', '123 40'],
-			['CZ', '12340', '123 40'],
-			['DK', '1234'],
-			['DE', '12345'],
-			['EE', '12345'],
-			['IE', 'AB1 CD23', ['mixed' => true]],
-			['IE', 'AB1CD23','AB1 CD23', ['mixed' => true]],
-			['IE', '12A 34BC', ['mixed' => true]],
-			['IE', '12A34BC','12A 34BC', ['mixed' => true]],
-			['GR', '123 45'],
-			['GR', '12345', '123 45'],
-			['ES', '12345'],
-			['FR', '12345'],
-			['HR', '12345'],
-			['HR', 'HR-12345','12345'],
-			['IT', '12345'],
-			['CY', '1234'],
-			['LV', '1234', 'LV-1234'],
-			['LV', 'LV-1234', 'LV-1234'],
-			['LT', '12345', 'LT-12345'],
-			['LT', 'LT-12345', 'LT-12345'],
-			['LU', '1234', 'L-1234'],
-			['LU', 'L-1234', 'L-1234'],
-			['HU', '1234'],
-			['MT', 'ABC 1234'],
-			['MT', 'ABC1234', 'ABC 1234'],
-			['NL', '1234 AB'],
-			['NL', '1234AB', '1234 AB'],
-			['AT', '1234'],
-			['PL', '12-345'],
-			['PL', '12345', '12-345'],
-			['PT', '1234-567'],
-			['PT', '1234567', '1234-567'],
-			['RO', '123456'],
-			['SI', '1234'],
-			['SI', 'SI-1234', '1234'],
-			['SK', '123 45'],
-			['SK', '12345', '123 45'],
-			['FI', 'FI-12345'],
-			['FI', '12345', 'FI-12345'],
-			['FI', 'AX-12345', 'AX-12345'],
-			['SE', 'SE-123 45'],
-			['SE', '12345', 'SE-123 45'],
-			['SE', '123 45', 'SE-123 45'],
-			['SE', 'SE-12345', 'SE-123 45'],
-			['UK', 'SW1W 0NY', $uk_options],
-			['UK', 'SW1W0NY', 'SW1W 0NY', $uk_options],
-			['UK', 'PO16 7GZ', $uk_options],
-			['UK', 'PO167GZ', 'PO16 7GZ', $uk_options],
-			['UK', 'L1 8JQ', $uk_options],
-			['UK', 'L18JQ', 'L1 8JQ', $uk_options],
-		];
+		);
+		return array(
+			array('BE', '1234'),
+			array('BG', '1234'),
+			array('CZ', '123 40'),
+			array('CZ', '12340', '123 40'),
+			array('DK', '1234'),
+			array('DE', '12345'),
+			array('EE', '12345'),
+			array('IE', 'AB1 CD23', array('mixed' => true)),
+			array('IE', 'AB1CD23','AB1 CD23', array('mixed' => true)),
+			array('IE', '12A 34BC', array('mixed' => true)),
+			array('IE', '12A34BC','12A 34BC', array('mixed' => true)),
+			array('GR', '123 45'),
+			array('GR', '12345', '123 45'),
+			array('ES', '12345'),
+			array('FR', '12345'),
+			array('HR', '12345'),
+			array('HR', 'HR-12345','12345'),
+			array('IT', '12345'),
+			array('CY', '1234'),
+			array('LV', '1234', 'LV-1234'),
+			array('LV', 'LV-1234', 'LV-1234'),
+			array('LT', '12345', 'LT-12345'),
+			array('LT', 'LT-12345', 'LT-12345'),
+			array('LU', '1234', 'L-1234'),
+			array('LU', 'L-1234', 'L-1234'),
+			array('HU', '1234'),
+			array('MT', 'ABC 1234'),
+			array('MT', 'ABC1234', 'ABC 1234'),
+			array('NL', '1234 AB'),
+			array('NL', '1234AB', '1234 AB'),
+			array('AT', '1234'),
+			array('PL', '12-345'),
+			array('PL', '12345', '12-345'),
+			array('PT', '1234-567'),
+			array('PT', '1234567', '1234-567'),
+			array('RO', '123456'),
+			array('SI', '1234'),
+			array('SI', 'SI-1234', '1234'),
+			array('SK', '123 45'),
+			array('SK', '12345', '123 45'),
+			array('FI', 'FI-12345'),
+			array('FI', '12345', 'FI-12345'),
+			array('FI', 'AX-12345', 'AX-12345'),
+			array('SE', 'SE-123 45'),
+			array('SE', '12345', 'SE-123 45'),
+			array('SE', '123 45', 'SE-123 45'),
+			array('SE', 'SE-12345', 'SE-123 45'),
+			array('UK', 'SW1W 0NY', $uk_options),
+			array('UK', 'SW1W0NY', 'SW1W 0NY', $uk_options),
+			array('UK', 'PO16 7GZ', $uk_options),
+			array('UK', 'PO167GZ', 'PO16 7GZ', $uk_options),
+			array('UK', 'L1 8JQ', $uk_options),
+			array('UK', 'L18JQ', 'L1 8JQ', $uk_options),
+		);
 	}
 	/**
 	 * @dataProvider provider_zips
 	 **/
-	function test_zips($country, $zip, $cannonical = null, $options=[]) {
-		$field = new ZipField([]);
+	function test_zips($country, $zip, $cannonical = null, $options=array()) {
+		$field = new ZipField(array());
 		if(is_array($cannonical)) {
 			$options=$cannonical;
 			$cannonical = null;
@@ -204,10 +204,10 @@ class TcZipField extends TcBase {
 		$zzip = $zip;
 		$this->assertTrue($field->is_valid_for($country,$zzip,$err));
 		$this->assertEquals($zzip, $cannonical);
-		$options+= [
+		$options+= array(
 			'mixed' => false,
 			'length' => null
-		];
+		);
 		if(!$options['mixed']) {
 			for($i=0;$i<strlen($zip);$i++) {
 				$zzip = $zip;
@@ -226,7 +226,7 @@ class TcZipField extends TcBase {
 				$this->assertFalse($field->is_valid_for($country,$zzip,$err));
 		}
 		if(!$options['length'] || strlen($zip) == $options['length'][1]) {
-				foreach(['a', 'A', '0', '#'] as $add) {
+				foreach(array('a', 'A', '0', '#') as $add) {
 					$zzip = $zip . $add;
 					$this->assertFalse($field->is_valid_for($country,$zzip,$err));
 					$zzip = $add . $zip;
