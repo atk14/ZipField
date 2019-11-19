@@ -51,6 +51,15 @@ class TcZipField extends TcBase {
 		//
 		$zip = $this->assertValid("56789");
 		$this->assertEquals("567 89",$zip);
+
+		// Using options null_empty_output
+		$this->field = new ZipField(array("required" => false)); // null_empty_output is true by default
+		$val = $this->assertValid(" ");
+		$this->assertTrue($val === null);
+		//
+		$this->field = new ZipField(array("required" => false, "null_empty_output" => false));
+		$val = $this->assertValid(" ");
+		$this->assertTrue($val === "");
 	}
 
 	function test_Austria(){
