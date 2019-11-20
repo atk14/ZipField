@@ -19,6 +19,9 @@ class ZipField extends RegexField {
 		$options += array(
 			"country" => null, // e.g. "CZ"
 			"null_empty_output" => true,
+			"error_messages" => [
+				"invalid" => _("Please enter a valid zip code"),
+			],
 		);
 
 		$this->country = $options["country"];
@@ -28,8 +31,6 @@ class ZipField extends RegexField {
 			$_patterns[] = "(?<$key>$pattern)";
 		}
 		parent::__construct("/^(".join("|",$_patterns).")$/",$options);
-
-		$this->update_messages(array("invalid" => _("Please enter a valid zip code")));
 	}
 
 	function clean($value){
