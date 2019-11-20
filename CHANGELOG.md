@@ -3,7 +3,7 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
-## [0.2.1]
+## [0.2.1] - 2019-11-20
 
 - error messages can be overridden by option in constructor
 - format hints can be overridden by option in constructor
