@@ -19,17 +19,23 @@ class ZipField extends RegexField {
 		$options += array(
 			"country" => null, // e.g. "CZ"
 			"null_empty_output" => true,
+			"error_messages" => array(
+				"invalid" => _("Please enter a valid zip code"),
+			),
+			"format_hints" => array(
+				"CZ" => _("Enter the ZIP code as NNN NN"),
+				"SK" => _("Enter the ZIP code as NNN NN"),
+			),
 		);
 
 		$this->country = $options["country"];
+		$this->format_hints = $options["format_hints"];
 
 		$_patterns = array();
 		foreach(self::$Patterns as $key => $pattern){
 			$_patterns[] = "(?<$key>$pattern)";
 		}
 		parent::__construct("/^(".join("|",$_patterns).")$/",$options);
-
-		$this->update_messages(array("invalid" => _("Please enter a valid zip code")));
 	}
 
 	function clean($value){
@@ -69,13 +75,7 @@ class ZipField extends RegexField {
 	 *	}
 	 */
 	function is_valid_for($country,&$zip = null,&$err_message = null){
-		static $format_hints;
-		if(!$format_hints){
-			$format_hints = array(
-				"CZ" => _("Enter the ZIP code as NNN NN"),
-				"SK" => _("Enter the ZIP code as NNN NN"),
-			);
-		}
+		$format_hints = $this->format_hints;
 
 		if(is_null($zip)){
 			$zip = $this->cleaned_value;

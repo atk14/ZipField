@@ -80,6 +80,18 @@ It's possible to set up ZipField only to accept postal codes from one specific c
       }
     }
 
+Error message for invalid zip code or format hints can be specified
+
+    $this->add_field("zip", new ZipField([
+      "error_messages" => [
+        "invalid" => _("Invalid ZIP code"),
+      ],
+      "format_hints" => [
+        "CZ" => _("Please use format NNN NN"),
+        "UK" => _("Wrong ZIP format"),
+      ],
+    ]));
+
 Testing
 -------
 

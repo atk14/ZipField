@@ -51,6 +51,15 @@ class TcZipField extends TcBase {
 		//
 		$zip = $this->assertValid("56789");
 		$this->assertEquals("567 89",$zip);
+
+		// Using options null_empty_output
+		$this->field = new ZipField(array("required" => false)); // null_empty_output is true by default
+		$val = $this->assertValid(" ");
+		$this->assertTrue($val === null);
+		//
+		$this->field = new ZipField(array("required" => false, "null_empty_output" => false));
+		$val = $this->assertValid(" ");
+		$this->assertTrue($val === "");
 	}
 
 	function test_Austria(){
@@ -233,5 +242,59 @@ class TcZipField extends TcBase {
 					$this->assertFalse($field->is_valid_for($country,$zzip,$err));
 				}
 		}
+	}
+
+	function test_errors_with_custom_message() {
+
+		# first test with specified country code
+		$this->field = new ZipField(array(
+			"country" => "CZ",
+			"error_messages" => array(
+				"invalid" => _("This zip is invalid"),
+			),
+			"format_hints" => array(
+				"CZ" => _("Format NNN NN is expected"),
+				"SK" => _("Format NNN NN must be used"),
+				# hint for SE is not included in default option in constructor
+				"SE" => _("Unknown format for Sweden"),
+			),
+		));
+
+		$this->assertValid("12345");
+		$err = $this->assertInvalid("1234");
+		$this->assertEquals(_("Format NNN NN is expected"), $err);
+		# test is_valid_for() using different country code
+		$this->assertFalse($this->field->is_valid_for("SE",$zip,$err));
+		$this->assertEquals(_("Unknown format for Sweden"), $err);
+		$this->assertFalse($this->field->is_valid_for("UK",$zip,$err));
+		$this->assertEquals(_("This zip is invalid"), $err);
+
+		# other test without country code
+		$this->field = new ZipField(array(
+			"error_messages" => array(
+				"invalid" => _("This zip is invalid"),
+			),
+			"format_hints" => array(
+				"CZ" => _("Format NNN NN is expected"),
+				"SK" => _("Format NNN NN must be used"),
+				# hint for SE is not included in default option in constructor
+				"SE" => _("Unknown format for Sweden"),
+			),
+		));
+		$err = $this->assertInvalid("123 0");
+
+		$this->assertEquals(_("This zip is invalid"), $err);
+
+		$this->assertValid("1230");
+		$this->assertFalse($this->field->is_valid_for("CZ",$zip,$err));
+		$this->assertEquals(_("Format NNN NN is expected"), $err);
+		$this->assertFalse($this->field->is_valid_for("SK",$zip,$err));
+		$this->assertEquals(_("Format NNN NN must be used"), $err);
+		# For UK there is no format hint defined. Not even in default options in constructor.
+		# So error message defined for 'invalid' is returned
+		$this->assertFalse($this->field->is_valid_for("UK",$zip,$err));
+		$this->assertEquals(_("This zip is invalid"), $err);
+		$this->assertFalse($this->field->is_valid_for("SE",$zip,$err));
+		$this->assertEquals(_("Unknown format for Sweden"), $err);
 	}
 }
