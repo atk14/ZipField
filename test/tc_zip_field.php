@@ -120,13 +120,13 @@ class TcZipField extends TcBase {
 			$err = "err";
 			$this->assertTrue($this->field->is_valid_for($country,$zip,$err));
 			$this->assertEquals($expected,$zip);
-			$this->assertNull(null,$err);
+			$this->assertNull(null,(string)$err);
 
 			$zip = $this->assertValid(" $input ");
 			$err = "err";
 			$this->assertTrue($this->field->is_valid_for($country,$zip,$err));
 			$this->assertEquals($expected,$zip);
-			$this->assertNull(null,$err);
+			$this->assertNull(null,(string)$err);
 		}
 
 		foreach($invalid_codes_in_the_country as $input){
