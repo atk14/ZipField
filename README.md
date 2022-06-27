@@ -15,8 +15,8 @@ Optionally you can symlink the ZipField file into your project:
 
     ln -s ../../vendor/atk14/zip-field/src/app/fields/zip_field.php app/fields/zip_field.php
 
-Usage in a ATK14 application
-----------------------------
+Usage in an ATK14 application
+-----------------------------
 
 ZipField has method is_valid_for() for re-validation in context of the selected country. 
 
