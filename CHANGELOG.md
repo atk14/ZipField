@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2023-01-05
+
+* a96bb3a - Fix for PHP8.1
+
 ## [0.2.1] - 2019-11-20
 
 - error messages can be overridden by option in constructor
