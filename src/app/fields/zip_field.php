@@ -132,6 +132,12 @@ class ZipField extends RegexField {
 		static $COMMON_PATTERNS;
 		if(!$COMMON_PATTERNS){
 			$COMMON_PATTERNS = [
+				"4_digits" => [
+					"pattern" => '\d{4}',
+					"hint" => _("enter four digits"),
+					"valid" => ["1234" => "1234"],
+					"invalid" => ["cw3 9ss", "123456", "12345"],
+				],
 				"5_digits" => [
 					"pattern" => '\d{5}',
 					"hint" => _("enter five digits"),
@@ -233,8 +239,6 @@ ZipField::$OutputFilters = array(
 						},
 );
 
-// AR
-// BR
 // CA
 // CH
 // CN
@@ -245,7 +249,6 @@ ZipField::$OutputFilters = array(
 // JP
 // MA
 // MD
-// MX
 // NO
 // NZ
 // PE
@@ -254,7 +257,15 @@ ZipField::$OutputFilters = array(
 // TR
 // ZA
 
+ZipField::AddCountryPattern("AR","4_digits");
+ZipField::AddCountryPattern("BR",[
+	"pattern" => '(\d{5})-?(\d{3})',
+	"filter" => '\1-\2',
+	"valid" => ["12345-678" => "12345-678","12345 - 321" => "12345-321","12345 333" => "12345-333"],
+	"invalid" => ["CW3 9SS",],
+]);
 ZipField::AddCountryPattern("IN","6_digits");
+ZipField::AddCountryPattern("MX","5_digits");
 ZipField::AddCountryPattern("RU","6_digits");
 ZipField::AddCountryPattern("UA","5_digits");
 ZipField::AddCountryPattern("US",[
