@@ -3,6 +3,11 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 2023-07-13
+
+- Added patterns for US, RU, IN, UA, AR, BR, MX, CA, CH, CN, DK, IL and JP postal codes
+- Package is compatible with PHP>=5.6.0
+
 ## [0.2.2] - 2023-01-05
 
 * a96bb3a - Fix for PHP8.1
