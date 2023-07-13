@@ -105,21 +105,32 @@ class TcZipField extends TcBase {
 	}
 
 	function test_Slovakia(){
-		$this->_testCountry("CZ",array(
+		$this->_testCountry("SK",array(
 				"123 45" => "123 45",
 				"67890" => "678 90",
 			),array("CW3 9SS")
 		);
 	}
 
-	function _testCountry($country,$valid_codes,$invalid_codes_in_the_country = array()){
+	function test_generic(){
+		foreach(ZipField::$ValidExamples as $country_code => $valid){
+			$this->_testCountry(
+				$country_code,
+				$valid,
+				ZipField::$InvalidExamples[$country_code],
+				isset(ZipField::$FormatHints[$country_code]) ? ZipField::$FormatHints[$country_code] : "",
+			);
+		}
+	}
+
+	function _testCountry($country,$valid_codes,$invalid_codes_in_the_country = array(),$err_expected = ""){
 		$this->field = new ZipField();
 
 		foreach($valid_codes as $input => $expected){
-			$zip = $this->assertValid($input);
+			$zip = $this->assertValid($input,"$country: $input");
 			$err = "err";
 			$this->assertTrue($this->field->is_valid_for($country,$zip,$err));
-			$this->assertEquals($expected,$zip);
+			$this->assertEquals($expected,$zip,"$country: $input -> $expected");
 			$this->assertNull(null,(string)$err);
 
 			$zip = $this->assertValid(" $input ");
@@ -132,8 +143,11 @@ class TcZipField extends TcBase {
 		foreach($invalid_codes_in_the_country as $input){
 			$zip = $this->assertValid($input);
 			$err = "";
-			$this->assertFalse($this->field->is_valid_for($country,$zip,$err));
+			$this->assertFalse($this->field->is_valid_for($country,$zip,$err),"$country: $zip");
 			$this->assertTrue(strlen($err)>0);
+			if(strlen($err_expected)){
+				$this->assertEquals($err_expected,$err);
+			}
 		}
 	}
 
@@ -281,7 +295,7 @@ class TcZipField extends TcBase {
 				"SE" => "Unknown format for Sweden",
 			),
 		));
-		$err = $this->assertInvalid("123 0");
+		$err = $this->assertInvalid("123 0X");
 
 		$this->assertEquals("This zip is invalid", $err);
 

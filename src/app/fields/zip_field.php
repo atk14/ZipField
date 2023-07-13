@@ -12,8 +12,13 @@
  *	$field = new ZipField(["country" => "CZ"]); // accepts zip of the one country only
  */
 class ZipField extends RegexField {
-	static $Patterns;
-	static $OutputFilters;
+
+	static $Patterns = [];
+	static $OutputFilters = [];
+	static $FormatHints = [];
+
+	static $ValidExamples = [];
+	static $InvalidExamples = [];
 
 	function __construct($options = array()){
 		$options += array(
@@ -44,10 +49,18 @@ class ZipField extends RegexField {
 		$value = strtoupper($value);
 		$value = preg_replace('/\s+/',' ',$value);
 
+		$value_orig = $value;
+		$value_spaceless = preg_replace('/\s+/','',$value);
+
 		list($err,$value) = parent::clean($value);
+		if((!$value || !is_null($err)) && $value_orig!==$value_spaceless){
+			list($err,$value) = parent::clean($value_spaceless);
+		}
+
 		if(!$value || !is_null($err)){
 			return array($err,$value);
 		}
+
 		if($this->country && !$this->is_valid_for($this->country,$value,$err)){
 			$value = null;
 		}
@@ -76,7 +89,7 @@ class ZipField extends RegexField {
 	 *	}
 	 */
 	function is_valid_for($country,&$zip = null,&$err_message = null){
-		$format_hints = $this->format_hints;
+		$format_hints = $this->format_hints + self::$FormatHints;
 
 		if(is_null($zip)){
 			$zip = $this->cleaned_value;
@@ -89,7 +102,7 @@ class ZipField extends RegexField {
 
 			if(!preg_match("/^$patern$/",$zip)){
 				// trying to check the code again but without white spaces
-				$_zip = preg_replace('/\s*/','',$zip);
+				$_zip = preg_replace('/\s+/','',$zip);
 				if($_zip!==$zip && ($this->is_valid_for($country,$_zip,$err_message))){
 					$zip = $_zip;
 				}else{
@@ -113,6 +126,27 @@ class ZipField extends RegexField {
 		}
 
 		return true;
+	}
+
+	static function AddCountryPattern($country_code,$options = []){
+		$options += [
+			"pattern" => 'pattern here',
+			"filter" => null,
+			"hint" => "",
+			"valid" => [],
+			"invalid" => [],
+		];
+
+		self::$Patterns[$country_code] = $options["pattern"];
+		if($options["filter"]){
+			self::$OutputFilters[$country_code] = $options["filter"];
+		}
+		if($options["hint"]){
+			self::$FormatHints[$country_code] = $options["hint"];
+		}
+
+		self::$ValidExamples[$country_code] = $options["valid"];
+		self::$InvalidExamples[$country_code] = $options["invalid"];
 	}
 }
 
@@ -174,7 +208,42 @@ ZipField::$OutputFilters = array(
 		'UK' => function($matches) {
 							$zip = str_replace(' ','', $matches[0]);
 							return substr($zip,0,strlen($zip)-3) . ' ' . substr($zip,strlen($zip)-3);
-						}
+						},
 );
 
+// AR
+// BR
+// CA
+// CH
+// CN
+// DK
+// EG
+// GB
+// IL
+// IN
+// JP
+// MA
+// MD
+// MX
+// NO
+// NZ
+// PE
+// SM
+// TN
+// TR
+// UA
+// ZA
 
+ZipField::AddCountryPattern("RU",[
+	"pattern" => '\d{6}',
+	"hint" => _("Enter six digits"),
+	"valid" => ["123456" => "123456"],
+	"invalid" => ["CW3 9SS"],
+]);
+
+ZipField::AddCountryPattern("US",[
+	"pattern" => '(\d{5}(-\d{4})?)',
+	"hint" => _("Enter five digits"),
+	"valid" => ["12345" => "12345","12345-6789" => "12345-6789", "12345 - 4321" => "12345-4321"],
+	"invalid" => ["CW3 9SS"],
+]);
