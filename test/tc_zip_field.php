@@ -118,7 +118,7 @@ class TcZipField extends TcBase {
 				$country_code,
 				$valid,
 				ZipField::$InvalidExamples[$country_code],
-				isset(ZipField::$FormatHints[$country_code]) ? ZipField::$FormatHints[$country_code] : "",
+				isset(ZipField::$FormatHints[$country_code]) ? ZipField::$FormatHints[$country_code] : ""
 			);
 		}
 	}

@@ -129,6 +129,28 @@ class ZipField extends RegexField {
 	}
 
 	static function AddCountryPattern($country_code,$options = []){
+		static $COMMON_PATTERNS;
+		if(!$COMMON_PATTERNS){
+			$COMMON_PATTERNS = [
+				"5_digits" => [
+					"pattern" => '\d{5}',
+					"hint" => _("enter five digits"),
+					"valid" => ["12345" => "12345"],
+					"invalid" => ["cw3 9ss", "123456"],
+				],
+				"6_digits" => [
+					"pattern" => '\d{6}',
+					"hint" => _("Enter six digits"),
+					"valid" => ["123456" => "123456"],
+					"invalid" => ["CW3 9SS", "12345", "1234567"],
+				],
+			];
+		}
+
+		if(is_string($options)){
+			$options = $COMMON_PATTERNS[$options];
+		}
+
 		$options += [
 			"pattern" => 'pattern here',
 			"filter" => null,
@@ -220,7 +242,6 @@ ZipField::$OutputFilters = array(
 // EG
 // GB
 // IL
-// IN
 // JP
 // MA
 // MD
@@ -231,16 +252,11 @@ ZipField::$OutputFilters = array(
 // SM
 // TN
 // TR
-// UA
 // ZA
 
-ZipField::AddCountryPattern("RU",[
-	"pattern" => '\d{6}',
-	"hint" => _("Enter six digits"),
-	"valid" => ["123456" => "123456"],
-	"invalid" => ["CW3 9SS"],
-]);
-
+ZipField::AddCountryPattern("IN","6_digits");
+ZipField::AddCountryPattern("RU","6_digits");
+ZipField::AddCountryPattern("UA","5_digits");
 ZipField::AddCountryPattern("US",[
 	"pattern" => '(\d{5}(-\d{4})?)',
 	"hint" => _("Enter five digits"),
