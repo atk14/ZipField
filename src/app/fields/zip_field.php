@@ -245,18 +245,6 @@ ZipField::$OutputFilters = array(
 						},
 );
 
-// EG
-// GB
-// MA
-// MD
-// NO
-// NZ
-// PE
-// SM
-// TN
-// TR
-// ZA
-
 ZipField::AddCountryPattern("AR","4_digits");
 ZipField::AddCountryPattern("BR",[
 	"pattern" => '(\d{5})-?(\d{3})',
@@ -273,6 +261,7 @@ ZipField::AddCountryPattern("CA",[
 ZipField::AddCountryPattern("CN","6_digits");
 ZipField::AddCountryPattern("CH","4_digits");
 ZipField::AddCountryPattern("DK","4_digits");
+ZipField::AddCountryPattern("EG","5_digits");
 ZipField::AddCountryPattern("IL","7_digits");
 ZipField::AddCountryPattern("IN","6_digits");
 ZipField::AddCountryPattern("JP",[
@@ -281,12 +270,37 @@ ZipField::AddCountryPattern("JP",[
 	"valid" => ["167-0031" => "167-0031", "167 0032" => "167-0032", "1670033" => "167-0033"],
 	"invalid" => ["12345"],
 ]);
+ZipField::AddCountryPattern("MA","5_digits");
+ZipField::AddCountryPattern("MD",[
+	"pattern" => '(MD)-?(\d{4})',
+	"filter" => '\1-\2',
+	"valid" => ["MD-2001" => "MD-2001", "MD 2002" => "MD-2002", "MD2003" => "MD-2003"],
+	"invalid" => ["12345"],
+]);
 ZipField::AddCountryPattern("MX","5_digits");
+ZipField::AddCountryPattern("NO","4_digits");
+ZipField::AddCountryPattern("NZ","4_digits");
+ZipField::AddCountryPattern("PE","5_digits");
 ZipField::AddCountryPattern("RU","6_digits");
+ZipField::AddCountryPattern("SM","5_digits");
+ZipField::AddCountryPattern("TN","4_digits");
+ZipField::AddCountryPattern("TR","5_digits");
 ZipField::AddCountryPattern("UA","5_digits");
 ZipField::AddCountryPattern("US",[
 	"pattern" => '(\d{5}(-\d{4})?)',
 	"hint" => _("Enter five digits"),
 	"valid" => ["12345" => "12345","12345-6789" => "12345-6789", "12345 - 4321" => "12345-4321"],
 	"invalid" => ["CW3 9SS"],
+]);
+ZipField::AddCountryPattern("ZA","4_digits");
+
+// TODO: This is the same pattern as for UK. Is it OK?
+ZipField::AddCountryPattern("GB",[
+	"pattern" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})',
+	"" => function($matches) {
+							$zip = str_replace(' ','', $matches[0]);
+							return substr($zip,0,strlen($zip)-3) . ' ' . substr($zip,strlen($zip)-3);
+						},
+	"valid" => ["SW1W 0NY" => "SW1W 0NY", "SW1W0NZ" => "SW1W0NZ", "L1 8JQ" => "L1 8JQ"],
+	"invalid" => ["1234"],
 ]);
