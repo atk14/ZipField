@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.4] - 2023-07-13
+
+- Added patterns for EG, GB, MA, MD, NO, NZ, PE, SM, TN, TR and ZA postal codes
+
 ## [0.2.3] - 2023-07-13
 
 - Added patterns for US, RU, IN, UA, AR, BR, MX, CA, CH, CN, DK, IL and JP postal codes
