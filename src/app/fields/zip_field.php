@@ -150,6 +150,12 @@ class ZipField extends RegexField {
 					"valid" => ["123456" => "123456"],
 					"invalid" => ["CW3 9SS", "12345", "1234567"],
 				],
+				"7_digits" => [
+					"pattern" => '\d{7}',
+					"hint" => _("Enter seven digits"),
+					"valid" => ["1234567" => "1234567"],
+					"invalid" => ["CW3 9SS", "12345", "12345678"],
+				],
 			];
 		}
 
@@ -239,14 +245,8 @@ ZipField::$OutputFilters = array(
 						},
 );
 
-// CA
-// CH
-// CN
-// DK
 // EG
 // GB
-// IL
-// JP
 // MA
 // MD
 // NO
@@ -264,7 +264,23 @@ ZipField::AddCountryPattern("BR",[
 	"valid" => ["12345-678" => "12345-678","12345 - 321" => "12345-321","12345 333" => "12345-333"],
 	"invalid" => ["CW3 9SS",],
 ]);
+ZipField::AddCountryPattern("CA",[
+	"pattern" => '([0-9A-Z]{3}) ?([0-9A-Z]{3})',
+	"filter" => '\1 \2',
+	"valid" => ["M4B 1G5" => "M4B 1G5", "M4B1G6" => "M4B 1G6"],
+	"invalid" => ["12345"],
+]);
+ZipField::AddCountryPattern("CN","6_digits");
+ZipField::AddCountryPattern("CH","4_digits");
+ZipField::AddCountryPattern("DK","4_digits");
+ZipField::AddCountryPattern("IL","7_digits");
 ZipField::AddCountryPattern("IN","6_digits");
+ZipField::AddCountryPattern("JP",[
+	"pattern" => '(\d{3})-?(\d{4})',
+	"filter" => '\1-\2',
+	"valid" => ["167-0031" => "167-0031", "167 0032" => "167-0032", "1670033" => "167-0033"],
+	"invalid" => ["12345"],
+]);
 ZipField::AddCountryPattern("MX","5_digits");
 ZipField::AddCountryPattern("RU","6_digits");
 ZipField::AddCountryPattern("UA","5_digits");
