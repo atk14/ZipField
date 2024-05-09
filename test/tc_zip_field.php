@@ -72,7 +72,10 @@ class TcZipField extends TcBase {
 		$this->_testCountry("CZ",array(
 				"123 45" => "123 45",
 				"67890" => "678 90",
-			),array("CW3 9SS")
+			),array(
+				"CW3 9SS",
+				"845 45" // SK Zip
+			)
 		);
 	}
 
@@ -106,9 +109,12 @@ class TcZipField extends TcBase {
 
 	function test_Slovakia(){
 		$this->_testCountry("SK",array(
-				"123 45" => "123 45",
-				"67890" => "678 90",
-			),array("CW3 9SS")
+				"845 45" => "845 45",
+				"04499" => "044 99",
+			),array(
+				"CW3 9SS",
+				"130 00" // CZ Zip
+			)
 		);
 	}
 
@@ -195,8 +201,8 @@ class TcZipField extends TcBase {
 			array('RO', '123456'),
 			array('SI', '1234'),
 			array('SI', 'SI-1234', '1234'),
-			array('SK', '123 45'),
-			array('SK', '12345', '123 45'),
+			array('SK', '845 45'),
+			array('SK', '84545', '845 45'),
 			array('FI', 'FI-12345'),
 			array('FI', '12345', 'FI-12345'),
 			array('FI', 'AX-12345', 'AX-12345'),

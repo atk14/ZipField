@@ -193,7 +193,7 @@ class ZipField extends RegexField {
 ZipField::$Patterns = array(
 		"BE" => '\d{4}',
 		"BG" => '\d{4}',
-		"CZ" => '(\d{3}) ?(\d{2})',
+		"CZ" => '([1-7]\d{2}) ?(\d{2})',
 		"DK" => '\d{4}',
 		"DE" => '\d{5}',
 		"EE" => '\d{5}',
@@ -215,7 +215,7 @@ ZipField::$Patterns = array(
 		"PT" => '(\d{4})-?(\d{3})',
 		"RO" => '\d{6}', // Four-digit postal codes were first introduced in Romania in 1974. Beginning with 1 May 2003, postal codes have six digits.
 		"SI" => '(SI-)?(\d{4})',
-		"SK" => '(\d{3}) ?(\d{2})',
+		"SK" => '([890]\d{2}) ?(\d{2})',
 		"FI" => '(FI-|AX-)?(\d{5})',
 		"SE" => '(SE-)?(\d{3}) ?(\d{2})',
 		"UK" => '([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})', // https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
