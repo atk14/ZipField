@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.5] - 2024-05-09
+
+* 11c83c1 - Added special checks for CZ and SK ZIP codes
+
 ## [0.2.4] - 2023-07-13
 
 - Added patterns for EG, GB, MA, MD, NO, NZ, PE, SM, TN, TR and ZA postal codes
