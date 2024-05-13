@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.6] - 2024-05-13
+
+* 360e82a - Better validation message
+
 ## [0.2.5] - 2024-05-09
 
 * 11c83c1 - Added special checks for CZ and SK ZIP codes
