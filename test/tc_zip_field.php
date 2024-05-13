@@ -47,7 +47,7 @@ class TcZipField extends TcBase {
 		$this->assertEquals("123 45",$zip);
 		//
 		$err = $this->assertInvalid("CW3 9SS");
-		$this->assertEquals(_("Enter the ZIP code as NNN NN"),$err);
+		$this->assertEquals(_("Enter a valid ZIP code as NNN NN"),$err);
 		//
 		$zip = $this->assertValid("56789");
 		$this->assertEquals("567 89",$zip);

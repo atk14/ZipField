@@ -28,8 +28,8 @@ class ZipField extends RegexField {
 				"invalid" => _("Please enter a valid zip code"),
 			),
 			"format_hints" => array(
-				"CZ" => _("Enter the ZIP code as NNN NN"),
-				"SK" => _("Enter the ZIP code as NNN NN"),
+				"CZ" => _("Enter a valid ZIP code as NNN NN"),
+				"SK" => _("Enter a valid ZIP code as NNN NN"),
 			),
 		);
 
