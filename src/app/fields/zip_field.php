@@ -238,7 +238,7 @@ ZipField::$OutputFilters = array(
 		'FI' => function($matches) { 
 							return ($matches[1]?$matches[1]:'FI-') . $matches[2];
 						},
-		'SE' => 'SE-\2 \3',
+		'SE' => '\1\2 \3',
 		'UK' => function($matches) {
 							$zip = str_replace(' ','', $matches[0]);
 							return substr($zip,0,strlen($zip)-3) . ' ' . substr($zip,strlen($zip)-3);
