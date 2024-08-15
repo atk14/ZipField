@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.7] - 2024-08-15
+
+* 5b6a235 - Sweden ZIP codes revalidation improved
+
 ## [0.2.6] - 2024-05-13
 
 * 360e82a - Better validation message
