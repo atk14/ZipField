@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.8] - 2024-10-22
+
+* c8483ab - Fixes for PHP8.3
+
 ## [0.2.7] - 2024-08-15
 
 * 5b6a235 - Sweden ZIP codes revalidation improved
