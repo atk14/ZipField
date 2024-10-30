@@ -3,6 +3,10 @@ Change Log
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.9] - 2024-10-30
+
+* 5a37f17 - [PHP8.3] Fixes
+
 ## [0.2.8] - 2024-10-22
 
 * c8483ab - Fixes for PHP8.3
