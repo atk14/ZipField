@@ -20,8 +20,9 @@ class ZipField extends RegexField {
 	static $ValidExamples = [];
 	static $InvalidExamples = [];
 
-	var $country;
-	var $format_hints;
+	public $country;
+	public $format_hints;
+	public $cleaned_value;
 
 	function __construct($options = array()){
 		$options += array(
